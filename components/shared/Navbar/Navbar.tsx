@@ -1,55 +1,72 @@
 
+import { BellRing, LogIn, Search } from "lucide-react";
+import Image from "next/image";
 
-import { BellRing, LogIn, Search } from "lucide-react"
+import {
+  Show,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 
-import { Show, SignInButton, SignOutButton, UserButton } from "@clerk/nextjs"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function Navbar() {
+  return (
+    <header className="relative flex h-16 items-center justify-between border-b bg-white px-4">
 
-    return (
+      {/* IZQUIERDA: SIDEBAR */}
+      <div className="flex items-center">
+        <SidebarTrigger />
+      </div>
 
-        <div className="flex h-16 justify-between border-b bg-white p-4">
+      {/* CENTRO: LOGO */}
+      <div className="absolute left-1/2 -translate-x-1/2">
+        <Image
+          src="/images/logos/logo main.png"
+          alt="Logo institucional"
+          width={180}
+          height={50}
+          priority
+          className="h-10 w-auto object-contain"
+        />
+      </div>
 
-            <SidebarTrigger />
+      {/* DERECHA: ACCIONES */}
+      <div className="ml-auto flex items-center gap-4">
 
-            <div className="flex items-center gap-4">
+        {/* BUSCADOR */}
+        <div className="hidden w-56 items-center rounded-lg border px-2 md:flex">
+          <Search className="mr-2 h-4 w-4 shrink-0" />
 
-                <div className="flex w-full max-w-sm items-center rounded-lg border-gray-300 px-2.5 py-0.5">
-                    <Search className="h-4 w-4 mr-2.5" />
-                    <Input
-                        type="search"
-                        placeholder="Search..."
-                        className="w-full border-0"
-                    />
-                </div>
-
-                <Button variant="outline">
-                    <BellRing />
-                </Button>
-
-                <Show when="signed-out">
-                    <SignInButton>
-                        <Button className="bg-pink-600">
-                            <LogIn />
-                            Iniciar sesión
-                        </Button>
-                    </SignInButton>
-                </Show>
-
-                <Show when="signed-in">
-                    <UserButton />
-                </Show>
-
-            </div>
-
+          <Input
+            type="search"
+            placeholder="Buscar..."
+            className="border-0 shadow-none"
+          />
         </div>
 
-    )
+        {/* NOTIFICACIONES */}
+        <Button variant="outline" size="icon">
+          <BellRing className="h-4 w-4" />
+        </Button>
 
+        {/* AUTENTICACIÓN */}
+        <Show when="signed-out">
+          <SignInButton>
+            <Button className="bg-pink-600 hover:bg-pink-700">
+              <LogIn className="mr-2 h-4 w-4" />
+              Iniciar sesión
+            </Button>
+          </SignInButton>
+        </Show>
+
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
+
+      </div>
+    </header>
+  );
 }
-
