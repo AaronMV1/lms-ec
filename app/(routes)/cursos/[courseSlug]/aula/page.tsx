@@ -1,0 +1,3 @@
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import {getCourse} from "@/lib/courses";import {notFound} from "next/navigation";import CourseLearning from "@/components/education/CourseLearning";export default async function Page({params}:{params:Promise<{courseSlug:string}>}){const {courseSlug}=await params;const {userId}=await auth();if(!userId)redirect(`/sign-in?redirect_url=${encodeURIComponent(`/cursos/${courseSlug}/aula`)}`);const course=getCourse(courseSlug);if(!course)notFound();return <CourseLearning course={course}/>;}
